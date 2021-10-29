@@ -1,0 +1,6 @@
+[submodule "tensor_network_functions"]
+	path = tensor_network_functions
+	url = git@github.com:ShHsLin/tensor_network_functions.git
+[submodule "auto-isoTNS"]
+	path = auto-isoTNS
+	url = git@github.com:ShHsLin/auto-isoTNS.git
