@@ -2,9 +2,9 @@ import numpy as np
 import pickle
 import os, sys
 sys.path.append('..')
-import circuit_func, misc
+import tensor_network_functions.mps_func as mps_func
+import tensor_network_functions.circuit_func as circuit_func
 import parse_args
-import mps_func
 
 '''
     Algorithm:

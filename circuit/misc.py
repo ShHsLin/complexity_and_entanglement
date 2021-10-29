@@ -1,6 +1,5 @@
 import numpy as np
 import pickle
-import scipy.linalg
 import os
 
 def nparray_2_dict(A_array):
@@ -22,19 +21,6 @@ def load_array(path):
 
 def save_array(path, A_array):
     np.savetxt(path, A_array, delimiter=',', fmt='%d, %.16e' )
-
-def svd(theta, compute_uv=True, full_matrices=True):
-    """SVD with gesvd backup"""
-    try:
-        return scipy.linalg.svd(theta,
-                                compute_uv=compute_uv,
-                                full_matrices=full_matrices)
-    except:
-        print("*gesvd*")
-        return scipy.linalg.svd(theta,
-                                compute_uv=compute_uv,
-                                full_matrices=full_matrices,
-                                lapack_driver='gesvd')
 
 def save_circuit_simple(dir_path, circuit, data_dict):
     '''

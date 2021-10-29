@@ -8,17 +8,16 @@ import jax.numpy as np
 from jax.ops import index, index_add, index_update
 from jax.config import config
 config.update("jax_enable_x64", True)
-import sys; sys.path.append('../')
-import jax_opt.optimizers
-import jax_opt.manifolds
+import sys; sys.path.append('../auto_isoTNS'); sys.path.append('../')
+import jax_opt.optimizers as optimizers
+import jax_opt.manifolds as manifolds
 
 import numpy as onp
 import pickle
 import os, sys
-import circuit_func_jax as circuit_func
-import misc
+import tensor_network_functions.circuit_func_jax as circuit_func
+import tensor_network_functions.mps_func as mps_func
 import parse_args
-import mps_func
 
 '''
     Algorithm:
@@ -57,13 +56,13 @@ def rsgd(circuit, target_state, product_state, opt_type, num_iter=10000, lr=0.05
         lr: the leraning rate
     '''
     # manifold = jax_opt.manifolds.StiefelManifold()
-    manifold = jax_opt.manifolds.StiefelManifold(metric='euclidean', retraction='svd')
-    if opt_type == 'rsgd':
-        opt_init, opt_update, get_params = jax_opt.optimizers.rsgd(lr, manifold)
-    elif opt_type == 'rmom':
-        opt_init, opt_update, get_params = jax_opt.optimizers.rmomentum(lr, manifold, 0.95)
-    elif opt_type == 'radam':
-        opt_init, opt_update, get_params = jax_opt.optimizers.radam(lr, manifold)
+    manifold = manifolds.StiefelManifold(metric='euclidean', retraction='svd')
+    if opt_type == 'r_sgd':
+        opt_init, opt_update, get_params = optimizers.r_sgd(lr, manifold)
+    elif opt_type == 'r_mom':
+        opt_init, opt_update, get_params = optimizers.r_momentum(lr, manifold, 0.95)
+    elif opt_type == 'r_adam':
+        opt_init, opt_update, get_params = optimizers.r_adam(lr, manifold)
     else:
         raise NotImplementedError
 
@@ -206,7 +205,7 @@ if __name__ == "__main__":
     error_list.append(1. - fidelity_reached)
 
 
-    loss_list = rsgd(my_circuit, target_state, product_state, opt_type='radam', num_iter=N_iter, lr=0.5)
+    loss_list = rsgd(my_circuit, target_state, product_state, opt_type='r_adam', num_iter=N_iter, lr=0.5)
     print(loss_list)
     exit()
 
