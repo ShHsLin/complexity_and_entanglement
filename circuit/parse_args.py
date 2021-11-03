@@ -17,6 +17,10 @@ def parse_args():
     parse arguments
     """
     parser = argparse.ArgumentParser(description='Quantum Circuit Simulation')
+    parser.add_argument('--filename', dest='filename',
+                        help='the filename of the wavefunction'
+                        'Default: None',
+                        default=None, type=str)
     parser.add_argument('--L', dest='L',
                         help='system size. Default: 10',
                         default=10, type=int)

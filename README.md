@@ -32,6 +32,13 @@ git submodule foreach git fetch  # the part for submodule
 git submodule foreach git pull
 ```
 
+### Example
+```
+cd circuit
+mkdir states
+python ed.py 10 1 1.0 0.5
+python run_optimization_exact.py --filename states/1dIsing_L10_J1_g1.000000_h0.500000_exact.state.npy --L 10 --depth 3 --N_iter 20
+```
 
 ### Working
 - circuit directory contains script which can turn a given exact state into QC.

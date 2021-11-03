@@ -7,7 +7,6 @@ import scipy.sparse as sparse
 import numpy as np
 import scipy.sparse.linalg.eigen.arpack as arp
 import matplotlib.pyplot as plt
-import mps_func
 
 
 def Op_expectation(Op, site_i, vector, L):
@@ -90,8 +89,8 @@ def get_H_XXZ(g, J, L):
 
 def get_E_Ising_exact(g, h, J, L):
     H = get_H_Ising(g, h, J, L)
-    e = arp.eigsh(H,k=1,which='SA',return_eigenvectors=False)
-    return(e)
+    e,v  = arp.eigsh(H,k=1,which='SA',return_eigenvectors=True)
+    return(e, v)
 
 def get_E_XXZ_exact(g,J,L):
     H = get_H_XXZ(g, J, L)
@@ -109,6 +108,7 @@ def get_E_exact(g, J, L, H):
 
 
 def global_quench(L, J, g, h):
+    import mps_func
     print(" Perform global Quench ")
     # Solving -J szsz + g sx + h sz
 
@@ -228,7 +228,11 @@ if __name__ == '__main__':
     N = L
     print("python 1dIsing L=%d, J=%f, g=%f, h=%f" % (L, J, g, h))
 
-    global_quench(L, J, g, h)
+    e, v = get_E_Ising_exact(g, h, J, L)
+    np.save('states/1dIsing_L%d_J%d_g%f_h%f_exact.state.npy' % (L, J, g, h),
+            v
+           )
+    # global_quench(L, J, g, h)
 
 
 

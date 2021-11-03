@@ -44,15 +44,35 @@ if __name__ == "__main__":
 
     ## `` target_mps = pickle.load(open(filename, 'rb')) ``
 
+
     ## Here we give an example of cat state, i.e. GHZ state
     ## as target state.
 
+    ## Example 1
     # cat_state = np.zeros([2**L])
     # cat_state[0] = cat_state[-1] = 1./np.sqrt(2)
     # target_state = cat_state
 
-    target_state = np.random.normal(0, 1, [2**L]) + 1j * np.random.normal(0, 1, [2**L])
-    target_state /= np.linalg.norm(target_state)
+    ## Example 2
+    # target_state = np.random.normal(0, 1, [2**L]) + 1j * np.random.normal(0, 1, [2**L])
+    # target_state /= np.linalg.norm(target_state)
+
+    if args.filename is not None:
+        if args.filename[-3:] == 'pkl':
+            target_state = pickle.load(open(args.filename, 'rb'))
+        elif args.filename[-3:] == 'npy':
+            target_state = np.load(args.filename).flatten()
+        else:
+            print("the file not supported !")
+            raise
+    else:
+        print(" No wavefunction provided test on cat state. ")
+        cat_state = np.zeros([2**L])
+        cat_state[0] = cat_state[-1] = 1./np.sqrt(2)
+        target_state = cat_state
+
+
+
 
 
 
@@ -81,9 +101,9 @@ if __name__ == "__main__":
         random_layer = []
         for idx in range(L-1):
             if (idx + dep_idx) % 2 == 0:
-                random_layer.append(circuit_func.random_2site_U(2))
+                random_layer.append(circuit_func.random_2site_U(2).reshape([4, 4]))
             else:
-                random_layer.append(np.eye(4).reshape([2,2,2,2]))
+                random_layer.append(np.eye(4).reshape([2,2,2,2]).reshape([4, 4]))
 
         my_circuit.append(random_layer)
         current_depth = dep_idx + 1
