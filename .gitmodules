@@ -7,6 +7,3 @@
 [submodule "auto_isoTNS"]
 	path = auto_isoTNS
 	url = git@github.com:ShHsLin/auto_isoTNS.git
-[submodule "quantumCircuit"]
-	path = quantumCircuit
-	url = https://github.com/as2457/quantumCircuit.git
