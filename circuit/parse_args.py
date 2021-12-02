@@ -12,9 +12,11 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
-def parse_args():
+def parse_args(string=None):
     """
     parse arguments
+    [Adam]  - I have added a couple of options for running on HPC
+            - I also added functionality to parse options stored in a txt file
     """
     parser = argparse.ArgumentParser(description='Quantum Circuit Simulation')
     parser.add_argument('--filename', dest='filename',
@@ -68,6 +70,14 @@ def parse_args():
                         default=0, type=int,
                        )
 
+    # additional options for running on HPC
+    parser.add_argument('--param_file', dest='param_file',
+                        help='the filename of the txt file with parameters for runs'
+                        'Default: None',
+                        default=None, type=str)
+    parser.add_argument('--option', dest='option',
+                        help='the line of the parameter txt file to read',
+                        default=1, type=str)
 
 
     if len(sys.argv) == 1:
@@ -75,5 +85,8 @@ def parse_args():
         # parser.print_help()
         # sys.exit(1)
 
-    args = parser.parse_args()
+    if string is None:
+        args = parser.parse_args()
+    else:
+        args = parser.parse_args(string.split())
     return args
