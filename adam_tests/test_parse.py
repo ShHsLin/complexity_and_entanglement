@@ -1,6 +1,25 @@
 import os, sys
 import argparse
 
+date_object = datetime.date.today()
+# define the name of the directory to be created
+path = "data_" + str(date_object)
+
+try:
+    os.mkdir(path)
+except OSError:
+    print ("Creation of the directory %s failed. Might already exist!" % path)
+else:
+    print ("Successfully created the directory %s " % path)
+
+# Functions to save and load python type objects to file using pickle.
+def save_obj(data, filename ):
+    with open(filename + '.pkl', 'wb') as f:
+        pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+
+def load_obj(filename ):
+    with open(filename + '.pkl', 'rb') as f:
+        return pickle.load(f)
 
 def parse_args(string=None):
     """
