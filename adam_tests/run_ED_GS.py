@@ -30,7 +30,6 @@ if __name__ == "__main__":
 
     args = parse_args()
 
-    L = args.L
     option = args.option
     filename = args.filename
 
@@ -38,6 +37,7 @@ if __name__ == "__main__":
         line = f.readlines()[option-1]
 
     args = parse_args(line)
+    L = args.L
     g = args.g
     h = args.h
     depth = args.depth
