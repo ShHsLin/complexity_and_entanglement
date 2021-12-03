@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=defq
-#SBATCH --array=1-260
+#SBATCH --array=1-2
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=10g
@@ -13,8 +13,8 @@ module purge
 module load anaconda-uon/3
 
 source ~/.bashrc
-conda activate myenv
+conda activate complexity_env
 
 TASK=${SLURM_ARRAY_TASK_ID}
-python -u googleFloquet_HPC_linear.py $TASK
+python -u run_circuit_optimization_GS.py --filename GS_parameters.txt --option $TASK
 echo "Finished job now"

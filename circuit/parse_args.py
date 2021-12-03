@@ -77,7 +77,7 @@ def parse_args(string=None):
                         default=None, type=str)
     parser.add_argument('--option', dest='option',
                         help='the line of the parameter txt file to read',
-                        default=1, type=str)
+                        default=1, type=int)
 
 
     if len(sys.argv) == 1:
