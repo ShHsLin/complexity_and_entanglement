@@ -3,8 +3,8 @@
 #SBATCH --array=1-14
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --mem=1g
-#SBATCH --time=1:00:00
+#SBATCH --mem=10g
+#SBATCH --time=2:00:00
 #below use Linux commands, which will run on compute node
 
 echo "Running on `hostname`"
