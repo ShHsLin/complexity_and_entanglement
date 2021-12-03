@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --partition=defq
-#SBATCH --array=1-2
+#SBATCH --array=1-16
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --mem=10g
-#SBATCH --time=168:00:00
+#SBATCH --mem=2g
+#SBATCH --time=64:00:00
 #below use Linux commands, which will run on compute node
 
 echo "Running on `hostname`"
@@ -16,5 +16,5 @@ source ~/.bashrc
 conda activate complexity_env
 
 TASK=${SLURM_ARRAY_TASK_ID}
-python -u run_circuit_optimization_GS.py --filename GS_parameters.txt --option $TASK
+python -u run_circuit_optimization_GS.py --L 14 --filename GS_parameters.txt --option $TASK
 echo "Finished job now"

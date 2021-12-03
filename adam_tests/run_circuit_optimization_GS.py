@@ -109,6 +109,7 @@ if __name__ == "__main__":
 
     args = parse_args()
 
+    L = args.L
     option = args.option
     filename = args.filename
 
@@ -116,14 +117,14 @@ if __name__ == "__main__":
         line = f.readlines()[option-1]
 
     args = parse_args(line)
-    L = args.L
     g = args.g
     h = args.h
-    max_depth = args.depth
+    depth = args.depth
     N_iter = args.N_iter  # should be a multiple of 100
 
     save_filename = f"Ising_GS_L{L}_g{g}_h{h}".replace(".","-")
 
+    print(f"Starting L={L}, g={g}, h={h}, depth={depth}")
 
     N = L  # I should probably just go with L
 
@@ -152,17 +153,15 @@ if __name__ == "__main__":
 
     print(f"Eigenproblem solved in {t2-t1} seconds")
 
-    for depth in range(1,max_depth+1):
+    circuit = initial_circuit(L, depth)
 
-        circuit = initial_circuit(L, depth)
+    error_list = []
+    for ii in range(int(N_iter/100)):
+        t1 = time.time()
+        state, circuit, temp_error_list  = run_optimization(V.flatten(), circuit, L, depth, 100)  # save every 100
+        error_list = error_list + temp_error_list[1:]
+        t2 = time.time()
+        print(f"100 iterations in {t2-t1} seconds")
 
-        error_list = []
-        for ii in range(int(N_iter/100)):
-            t1 = time.time()
-            state, circuit, temp_error_list  = run_optimization(V.flatten(), circuit, L, depth, 100)  # save every 100
-            error_list = error_list + temp_error_list[1:]
-            t2 = time.time()
-            print(f"100 iterations in {t2-t1} seconds")
-
-            data = {"state": state, "circuit": circuit, "errors": error_list}
-            save_obj(data, "HPC_data/circuits/"+save_filename+f"_depth{depth}_N_iter{N_iter}_circuit")
+        data = {"state": state, "circuit": circuit, "errors": error_list}
+        save_obj(data, "HPC_data/circuits/"+save_filename+f"_depth{depth}_N_iter{N_iter}_circuit")
