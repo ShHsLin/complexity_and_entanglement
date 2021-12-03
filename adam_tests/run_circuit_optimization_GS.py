@@ -128,30 +128,33 @@ if __name__ == "__main__":
 
     N = L  # I should probably just go with L
 
+    if os.path.exists("HPC_data/ED/"+save_filename+"_ED.pkl"):
+        print("Loading ED data")
+        V = load_obj("HPC_data/ED/"+save_filename+"_ED")
+    else:
+        t1 = time.time()
+        #H = get_H_Ising(g, h, 1., L)
 
-    t1 = time.time()
-    #H = get_H_Ising(g, h, 1., L)
+        H = sp.csr_matrix((2**N, 2**N))  # using sparse is far faster!!!
+        for ii in range(N-1):
+            H = H + Gate.xx([ii,ii+1]).toSparseArray(N)
+        for ii in range(N):
+            H = H + g*Gate.z(ii).toSparseArray(N) + h*Gate.x(ii).toSparseArray(N)
 
-    H = sp.csr_matrix((2**N, 2**N))  # using sparse is far faster!!!
-    for ii in range(N-1):
-        H = H + Gate.xx([ii,ii+1]).toSparseArray(N)
-    for ii in range(N):
-        H = H + g*Gate.z(ii).toSparseArray(N) + h*Gate.x(ii).toSparseArray(N)
-
-    t2 = time.time()
+        t2 = time.time()
 
 
-    print(f"Hamiltonian constructed in {t2-t1} seconds")
+        print(f"Hamiltonian constructed in {t2-t1} seconds")
 
-    t1 = time.time()
-    # for ground state
-    _,V = eigsh(H, 1, which='SA')
-    V = V.reshape((-1,1)) * (1 + 0*1j)  # make vector complex for MPS!
-    t2 = time.time()
+        t1 = time.time()
+        # for ground state
+        _,V = eigsh(H, 1, which='SA')
+        V = V.reshape((-1,1)) * (1 + 0*1j)  # make vector complex for MPS!
+        t2 = time.time()
 
-    save_obj(V, "HPC_data/ED/"+save_filename+"_ED")
+        save_obj(V, "HPC_data/ED/"+save_filename+"_ED")
 
-    print(f"Eigenproblem solved in {t2-t1} seconds")
+        print(f"Eigenproblem solved in {t2-t1} seconds")
 
     circuit = initial_circuit(L, depth)
 
