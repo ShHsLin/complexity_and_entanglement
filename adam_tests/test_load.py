@@ -9,11 +9,11 @@ from quantumCircuit.methods.gates import *
 
 from matplotlib import pyplot as plt
 
-L = 12
-g = 1.2
-h = 0.1
-depth = 4
-N_iter = 2000
+L = 20
+g = 1.4
+h = 0.9045
+depth = 3
+N_iter = 5000
 
 save_filename = f"Ising_GS_L{L}_g{g}_h{h}".replace(".","-")
 V = load_obj("HPC_data/ED/"+save_filename+"_ED")
@@ -25,7 +25,7 @@ entropy_list = [entropy_exact]
 
 data = load_obj("HPC_data/circuits/"+save_filename+f"_depth{depth}_N_iter{N_iter}_circuit")
 
-plt.plot(data["errors"])
+plt.plot(np.log(data["errors"]))
 plt.show()
 
 psi_circuit = State.vector(data["state"].reshape((-1,1)))
