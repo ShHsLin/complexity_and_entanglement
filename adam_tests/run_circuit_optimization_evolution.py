@@ -119,6 +119,7 @@ if __name__ == "__main__":
     args = parse_args(line)
     g = args.g
     h = args.h
+    T = args.T
     depth = args.depth
     N_iter = args.N_iter  # should be a multiple of 100
 
