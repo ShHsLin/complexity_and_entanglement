@@ -109,7 +109,6 @@ if __name__ == "__main__":
 
     args = parse_args()
 
-    L = args.L
     option = args.option
     filename = args.filename
 
@@ -120,6 +119,7 @@ if __name__ == "__main__":
     g = args.g
     h = args.h
     T = args.T
+    L = args.L
     depth = args.depth
     N_iter = args.N_iter  # should be a multiple of 100
 
