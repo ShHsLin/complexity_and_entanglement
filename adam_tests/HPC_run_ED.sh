@@ -3,7 +3,7 @@
 #SBATCH --array=1-14
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=8
-#SBATCH --mem=10g
+#SBATCH --mem=4g
 #SBATCH --time=2:00:00
 #below use Linux commands, which will run on compute node
 
