@@ -38,13 +38,12 @@ if __name__ == "__main__":
 
     args = parse_args(line)
     L = args.L
-    g = args.g
-    h = args.h
+    delta = args.delta
     N_iter = args.N_iter  # should be a multiple of 100
 
-    save_filename = f"Ising_GS_L{L}_g{g}_h{h}".replace(".","-")
+    save_filename = f"XXZ_GS_L{L}_delta{delta}".replace(".","-")
 
-    print(f"Starting L={L}, g={g}, h={h}")
+    print(f"Starting L={L}, delta={delta}}")
 
     N = L  # I should probably just go with L
 
@@ -53,9 +52,9 @@ if __name__ == "__main__":
 
     H = sp.csr_matrix((2**N, 2**N))  # using sparse is far faster!!!
     for ii in range(N-1):
-        H = H + Gate.xx([ii,ii+1]).toSparseArray(N)
-    for ii in range(N):
-        H = H + g*Gate.z(ii).toSparseArray(N) + h*Gate.x(ii).toSparseArray(N)
+        H = H + Gate.xx([ii,ii+1]).toSparseArray(N) 
+        H = H + Gate.yy([ii,ii+1]).toSparseArray(N)
+        H = H + delta*Gate.zz([ii,ii+1]).toSparseArray(N)
 
     t2 = time.time()
 
