@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --partition=defq
-#SBATCH --array=1-16
+#SBATCH --array=1-32
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=4g
@@ -16,5 +16,5 @@ source ~/.bashrc
 conda activate complexity_env
 
 TASK=${SLURM_ARRAY_TASK_ID}
-python -u run_circuit_optimization_GS.py --L 18 --filename GS_parameters.txt --option $TASK
+python -u run_circuit_optimization_GS_XXZ.py --L 18 --filename GS_parameters_XXZ.txt --option $TASK
 echo "Finished job now"
