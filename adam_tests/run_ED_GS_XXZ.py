@@ -43,7 +43,7 @@ if __name__ == "__main__":
 
     save_filename = f"XXZ_GS_L{L}_delta{delta}".replace(".","-")
 
-    print(f"Starting L={L}, delta={delta}}")
+    print(f"Starting L={L}, delta={delta}")
 
     N = L  # I should probably just go with L
 
